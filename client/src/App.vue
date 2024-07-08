@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import GuestLayout from './layouts/GuestLayout.vue';
+import UserLayout from './layouts/UserLayout.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <GuestLayout>
-    Home
-  </GuestLayout>
+  <UserLayout>
+    <RouterView />
+  </UserLayout>
 </template>

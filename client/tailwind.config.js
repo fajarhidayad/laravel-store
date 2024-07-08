@@ -8,7 +8,11 @@ export default {
         DEFAULT: '1rem'
       }
     },
-    extend: {}
+    extend: {
+      fontFamily: {
+        pixel: ['Pixelify Sans', 'sans-serif']
+      }
+    }
   },
   plugins: []
 }
