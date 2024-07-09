@@ -25,12 +25,15 @@ class ProductController extends Controller
         $fields = $request->validate([
             'name' => 'required|max:100',
             'description' => 'max:255',
-            'price' => 'required',
+            'price' => 'integer|required|min:0',
+            'stock' => 'integer|min:0',
+            'status' => 'boolean',
+            'category_id' => 'required|exists:App\Models\Category,id'
         ]);
 
         $product = Product::create($fields);
 
-        return ['product' => $product];
+        return $product;
     }
 
     /**
@@ -46,7 +49,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|max:100',
+            'description' => 'max:255',
+            'price' => 'numeric|required|min:0',
+            'stock' => 'numeric|min:0',
+            'status' => 'boolean',
+            'category_id' => 'required|exists:App\Models\Category,id'
+        ]);
+
+        $product->update($fields);
+
+        return $product;
     }
 
     /**
