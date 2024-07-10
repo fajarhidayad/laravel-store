@@ -3,7 +3,6 @@ import { RouterLink } from 'vue-router';
 import CartIcon from './icons/CartIcon.vue';
 import SearchIcon from './icons/SearchIcon.vue';
 
-
 </script>
 
 <template>
@@ -25,9 +24,10 @@ import SearchIcon from './icons/SearchIcon.vue';
           <input type="text" name="search" class="focus:outline-none" placeholder="Search" />
         </div>
 
-        <button class="hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center text-slate-700">
+        <RouterLink to="/cart" class="flex items-center justify-center text-slate-500 hover:text-slate-700 space-x-2">
           <CartIcon />
-        </button>
+          <span>0</span>
+        </RouterLink>
       </div>
     </div>
   </nav>
