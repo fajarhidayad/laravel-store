@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    use ApiResponses;
+
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -42,5 +46,11 @@ class AdminController extends Controller
     public function profile(Request $request)
     {
         return Auth::guard('admin')->user();
+    }
+
+    public function users()
+    {
+        $users = User::all();
+        return $this->success_data($users);
     }
 }

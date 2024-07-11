@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -37,6 +38,8 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/profile', [AdminController::class, 'profile']);
         Route::post('/logout', [AdminController::class, 'logout']);
+
+        Route::get('/users', [AdminController::class, 'users']);
     });
 });
 
@@ -48,3 +51,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/address', [AddressController::class, 'index']);
+    Route::post('/address', [AddressController::class, 'store']);
+});

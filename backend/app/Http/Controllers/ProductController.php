@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use ApiResponses;
+
     /**
      * Display a listing of the resource.
      */
@@ -14,7 +17,7 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        return $products;
+        return $this->success_data($products);
     }
 
     /**
@@ -33,7 +36,7 @@ class ProductController extends Controller
 
         $product = Product::create($fields);
 
-        return $product;
+        return $this->success_data($product, 201);
     }
 
     /**
@@ -41,7 +44,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product;
+        return $this->success_data($product);
     }
 
     /**
@@ -60,7 +63,7 @@ class ProductController extends Controller
 
         $product->update($fields);
 
-        return $product;
+        return $this->success_data($product);
     }
 
     /**
@@ -68,6 +71,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return $this->ok("success");
     }
 }
