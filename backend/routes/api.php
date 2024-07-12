@@ -54,5 +54,8 @@ Route::get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/address', [AddressController::class, 'index']);
+    Route::get('/address/{address}', [AddressController::class, 'show']);
     Route::post('/address', [AddressController::class, 'store']);
+    Route::put('/address/{address}', [AddressController::class, 'update']);
+    Route::delete('/address/{address}', [AddressController::class, 'destroy']);
 });

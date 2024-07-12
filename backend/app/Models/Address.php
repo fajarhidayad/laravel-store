@@ -12,6 +12,7 @@ class Address extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'address',
         'kecamatan',
         'city',

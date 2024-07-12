@@ -18,9 +18,15 @@ class AddressController extends Controller
         return $this->success_data($address);
     }
 
+    public function show(Address $address)
+    {
+        return $this->success_data($address);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
+            "name" => "required",
             "address" => "required|max:255",
             "kecamatan" => "required|max:100",
             "city" => "required|max:100",
@@ -29,6 +35,7 @@ class AddressController extends Controller
         ]);
 
         $address = Address::create([
+            "name" => $request->name,
             "address" => $request->address,
             "kecamatan" => $request->kecamatan,
             "city" => $request->city,
@@ -38,5 +45,27 @@ class AddressController extends Controller
         ]);
 
         return $this->success_data($address, 201);
+    }
+
+    public function update(Request $request, Address $address)
+    {
+        $data = $request->validate([
+            "name" => "required",
+            "address" => "required|max:255",
+            "kecamatan" => "required|max:100",
+            "city" => "required|max:100",
+            "province" => "required|max:100",
+            "zipcode" => "required|max:6",
+        ]);
+
+        $address->update($data);
+
+        return $this->success_data($address);
+    }
+
+    public function destroy(Address $address)
+    {
+        $address->delete();
+        return $this->ok("success");
     }
 }
