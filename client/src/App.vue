@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import UserLayout from './layouts/UserLayout.vue';
+import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
+import { getToken } from './api/token';
+
+onMounted(() => {
+  getToken()
+})
 </script>
 
 <template>
-  <UserLayout>
-    <RouterView />
-  </UserLayout>
+  <RouterView />
 </template>

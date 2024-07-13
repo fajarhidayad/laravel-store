@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { RouterView } from 'vue-router';
 import NavBar from '../components/NavBar.vue'
 import TheFooter from '@/components/TheFooter.vue';
 </script>
@@ -7,7 +8,7 @@ import TheFooter from '@/components/TheFooter.vue';
   <div class="min-h-screen flex flex-col">
     <NavBar />
     <main class="bg-gray-100 flex-1 pb-10">
-      <slot />
+      <RouterView />
     </main>
     <TheFooter />
   </div>

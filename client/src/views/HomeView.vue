@@ -1,6 +1,30 @@
 <script setup lang="ts">
+import { getCategories } from '@/api/category';
+import { getLatestProducts } from '@/api/product';
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
+interface Product {
+  id: number;
+  name: string;
+  price: number
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+const products = ref<Product[]>([]);
+const categories = ref<Category[]>([]);
+
+onMounted(async () => {
+  const { data: productData } = await getLatestProducts()
+  const { data: categoryData } = await getCategories()
+
+  products.value = productData
+  categories.value = categoryData
+})
 </script>
 
 <template>
@@ -14,7 +38,31 @@ import { RouterLink } from 'vue-router';
   </section>
 
   <section class="py-14 container">
-    <h2 class="text-2xl font-bold mb-7">Product by Category</h2>
+    <div class="flex items-center justify-between">
+
+      <h2 class="text-2xl font-bold mb-7">Latest Products</h2>
+      <RouterLink to="/categories" class="text-emerald-500 hover:text-emerald-600">Browse latest products &rarr;
+      </RouterLink>
+    </div>
+    <ul class="grid grid-cols-5 gap-5">
+      <li class="bg-white rounded-lg p-5 shadow-md" v-for="product in products" :key="product.id">
+        {{ product.name }}
+      </li>
+    </ul>
+  </section>
+
+  <section class="py-14 container">
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-bold mb-7">Product by Category</h2>
+      <RouterLink to="/categories" class="text-emerald-500 hover:text-emerald-600">Browse all categories &rarr;
+      </RouterLink>
+    </div>
+    <ul class="grid grid-cols-5 gap-x-5">
+      <li v-for="category in categories" :key="category.id"
+        class="rounded-lg p-5 bg-gradient-to-b from-transparent to-black/10">
+        <h3 class="text-xl font-bold text-white">{{ category.name }}</h3>
+      </li>
+    </ul>
   </section>
 
   <section
