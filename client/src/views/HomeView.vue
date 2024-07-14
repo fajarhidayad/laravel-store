@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { getCategories } from '@/api/category';
-import { getLatestProducts } from '@/api/product';
-import { onMounted, ref } from 'vue';
+import { useFetch } from '@/hooks/useFetch';
 import { RouterLink } from 'vue-router';
 
 interface Product {
@@ -15,16 +13,9 @@ interface Category {
   name: string;
 }
 
-const products = ref<Product[]>([]);
-const categories = ref<Category[]>([]);
+const { data: products } = useFetch<Product[]>('/products/latest', { method: 'GET' });
+const { data: categories } = useFetch<Category[]>('/categories', { method: 'GET' });
 
-onMounted(async () => {
-  const { data: productData } = await getLatestProducts()
-  const { data: categoryData } = await getCategories()
-
-  products.value = productData
-  categories.value = categoryData
-})
 </script>
 
 <template>

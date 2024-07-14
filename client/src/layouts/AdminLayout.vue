@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import DashboardIcon from '@/components/icons/DashboardIcon.vue';
+import InOutIcon from '@/components/icons/InOutIcon.vue';
+import LogoutIcon from '@/components/icons/LogoutIcon.vue';
 import PackageIcon from '@/components/icons/PackageIcon.vue';
 import UserIcon from '@/components/icons/UserIcon.vue';
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import UsersIcon from '@/components/icons/UsersIcon.vue';
+import { RouterView, useRoute, useRouter } from 'vue-router';
 
 const sidebarItems = [
   {
@@ -12,12 +15,23 @@ const sidebarItems = [
     icon: DashboardIcon
   },
   {
+    title: 'Order',
+    href: '/admin/order',
+    color: "text-amber-500",
+    icon: InOutIcon
+  },
+  {
     title: 'Products',
     href: '/admin/products',
-    color: "text-blue-500",
+    color: "text-sky-500",
     icon: PackageIcon
   },
-
+  {
+    title: 'Users',
+    href: '/admin/users',
+    color: "text-blue-500",
+    icon: UsersIcon
+  },
 ]
 
 const route = useRoute()
@@ -25,32 +39,42 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-gray-200">
-    <aside class="w-[300px] flex flex-col px-3 py-4">
-      <section class="bg-white h-full rounded-3xl shadow">
-        <div class="border-b p-7">
-          <h2 class="font-pixel text-xl text-center">Retro Store</h2>
-        </div>
-        <ul class="py-3 flex-1 space-y-3 px-2">
-          <li @click="router.push(item.href)" :key="item.title" v-for="item in sidebarItems"
-            :class="{ 'px-5 py-3 cursor-pointer hover:bg-gray-100 font-semibold flex items-center space-x-3 rounded-lg': true, 'bg-gray-100': route.name === item.title }">
-            <div :class="[item.color]">
-              <component :is="item.icon" />
-            </div>
-            <p class="text-sm">{{ item.title }}</p>
-          </li>
-        </ul>
-      </section>
+  <div class="flex min-h-screen bg-gray-100">
+    <aside :style="{ width: '300px' }" class="flex flex-col px-3 py-4 bg-white">
+      <div class="border-b p-7">
+        <h2 class="font-pixel text-xl">Retro Store</h2>
+      </div>
+      <ul class="py-3 flex-1 space-y-2 px-2">
+        <li @click="router.push(item.href)" :key="item.title" v-for="item in sidebarItems"
+          :class="{ 'sidebar-item': true, 'bg-gray-100': route.name === item.title }">
+          <div :class="[item.color]">
+            <component :is="item.icon" />
+          </div>
+          <p class="text-sm">{{ item.title }}</p>
+        </li>
+      </ul>
+      <button class="sidebar-item text-red-500">
+        <LogoutIcon />
+        <p class="text-sm">Logout</p>
+      </button>
     </aside>
-    <main class="px-5 flex-1">
-      <nav class="py-4 flex items-center justify-between mb-5">
-        <h2 class="font-bold">{{ route.name }}</h2>
+    <main class="flex-1">
+      <nav class="bg-white py-6 flex items-center justify-between mb-5 shadow px-10">
+        <h2 class="font-bold text-lg">{{ route.name }}</h2>
         <button class="font-semibold flex items-center space-x-2">
           <UserIcon />
           <span>User</span>
         </button>
       </nav>
-      <RouterView />
+      <div class="px-10">
+        <RouterView />
+      </div>
     </main>
   </div>
 </template>
+
+<style scoped>
+.sidebar-item {
+  @apply px-5 py-3 cursor-pointer hover:bg-gray-100 font-semibold flex items-center space-x-3 rounded-lg
+}
+</style>

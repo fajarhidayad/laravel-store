@@ -11,6 +11,8 @@ import AdminDashboardView from '@/views/admin/AdminDashboardView.vue'
 import AdminProductView from '@/views/admin/AdminProductView.vue'
 
 import NotFoundView from '@/views/errors/NotFoundView.vue'
+import AdminOrderView from '@/views/admin/AdminOrderView.vue'
+import AdminUsersView from '@/views/admin/AdminUsersView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,7 @@ const router = createRouter({
     {
       path: '/admin',
       component: AdminLayout,
+      redirect: { name: 'Dashboard' },
       children: [
         {
           path: 'dashboard',
@@ -51,9 +54,19 @@ const router = createRouter({
           component: AdminDashboardView
         },
         {
+          path: 'order',
+          name: 'Order',
+          component: AdminOrderView
+        },
+        {
           path: 'products',
           name: 'Products',
           component: AdminProductView
+        },
+        {
+          path: 'users',
+          name: 'Users',
+          component: AdminUsersView
         }
       ]
     },

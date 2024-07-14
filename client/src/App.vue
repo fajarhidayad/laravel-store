@@ -3,9 +3,9 @@ import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
 import { getToken } from './api/token';
 
-onMounted(() => {
-  getToken()
-})
+// onMounted(() => {
+//   getToken()
+// })
 </script>
 
 <template>
