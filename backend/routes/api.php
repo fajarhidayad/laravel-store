@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 // PRODUCTS
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/latest', [ProductController::class, 'latest']);
 Route::get('/products/{product}', [ProductController::class, 'show']);
 
 // CATEGORIES
@@ -24,7 +26,9 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{category}', [CategoryController::class, 'show']);
 
 Route::middleware(['auth:admin'])->group(function () {
-    Route::resource('/products', ProductController::class)->except(['index', 'show']);
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::put('/products/{product}', [ProductController::class, 'update']);
+    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
@@ -58,4 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/address', [AddressController::class, 'store']);
     Route::put('/address/{address}', [AddressController::class, 'update']);
     Route::delete('/address/{address}', [AddressController::class, 'destroy']);
+
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::post('/orders', [OrderController::class, 'store']);
 });

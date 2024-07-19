@@ -3,20 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::all();
+    use ApiResponses;
 
-        return $categories;
+    public function index(Request $request)
+    {
+        $limit = $request->query('limit', 5);
+        $categories = Category::take($limit)->get();
+
+        return $this->success_data($categories);
     }
 
     public function show(Category $category)
     {
-        return $category;
+        return $this->success_data($category);
     }
 
     public function store(Request $request)

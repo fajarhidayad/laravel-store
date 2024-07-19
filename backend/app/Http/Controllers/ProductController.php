@@ -10,12 +10,23 @@ class ProductController extends Controller
 {
     use ApiResponses;
 
+    public function latest(Request $request)
+    {
+        $limit = $request->query('limit', 5);
+        $products = Product::where('status', 1)
+            ->orderByDesc('created_at')
+            ->take($limit)
+            ->get();
+
+        return $this->success_data($products);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('category')->get();
 
         return $this->success_data($products);
     }
@@ -25,8 +36,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
+        $request->validate([
             'name' => 'required|max:100',
+            'image' => 'required|image:jpg,jpeg,png|max:2048',
             'description' => 'max:255',
             'price' => 'integer|required|min:0',
             'stock' => 'integer|min:0',
@@ -34,7 +46,17 @@ class ProductController extends Controller
             'category_id' => 'required|exists:App\Models\Category,id'
         ]);
 
-        $product = Product::create($fields);
+        $image_path = $request->file('image')->store('products');
+
+        $product = Product::create([
+            'name' => $request->name,
+            'image' => $image_path,
+            'description' => $request->description,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'status' => $request->status,
+            'category_id' => $request->category_id
+        ]);
 
         return $this->success_data($product, 201);
     }
