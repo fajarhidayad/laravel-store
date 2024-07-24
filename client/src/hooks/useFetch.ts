@@ -1,6 +1,7 @@
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, watch } from 'vue'
 import { api } from '@/api/api'
 import type { AxiosRequestConfig } from 'axios'
+import { getToken } from '@/api/token'
 
 export const useFetch = <T>(url: string, config: AxiosRequestConfig) => {
   const data = ref<T | null>(null)
@@ -11,15 +12,18 @@ export const useFetch = <T>(url: string, config: AxiosRequestConfig) => {
   const fetch = async () => {
     loading.value = true
     try {
+      if (config.method?.toLowerCase() !== 'get') {
+        await getToken()
+      }
       const result = await api.request({
         url,
         ...config
       })
       response.value = result
-      data.value = result.data.data
-    } catch (err) {
+      data.value = await result.data.data
+    } catch (err: any) {
       console.error(err)
-      error.value = err
+      error.value = err.response.data
     } finally {
       loading.value = false
     }

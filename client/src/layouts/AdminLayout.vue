@@ -36,6 +36,10 @@ const sidebarItems = [
 
 const route = useRoute()
 const router = useRouter()
+
+function logout() {
+  router.push('/admin/login')
+}
 </script>
 
 <template>
@@ -53,7 +57,7 @@ const router = useRouter()
           <p class="text-sm">{{ item.title }}</p>
         </li>
       </ul>
-      <button class="sidebar-item text-red-500">
+      <button class="sidebar-item text-red-500" @click="logout">
         <LogoutIcon />
         <p class="text-sm">Logout</p>
       </button>

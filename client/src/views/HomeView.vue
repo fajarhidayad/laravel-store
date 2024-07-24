@@ -1,17 +1,8 @@
 <script setup lang="ts">
 import { useFetch } from '@/hooks/useFetch';
 import { RouterLink } from 'vue-router';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import type { Product } from '@/types/product';
+import type { Category } from '@/types/category';
 
 const { data: products } = useFetch<Product[]>('/products/latest', { method: 'GET' });
 const { data: categories } = useFetch<Category[]>('/categories', { method: 'GET' });
